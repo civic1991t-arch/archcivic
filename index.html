@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Project CArch</title>
     <style>
-        /* 1. GLOBAL STYLES */
         body {
             background-color: #0d1117;
             color: #e0e5ea;
@@ -22,7 +21,6 @@
             text-align: left;
         }
 
-        /* 2. HEADER AREA (Title & GitHub Button) */
         .header-area {
             display: flex;
             justify-content: space-between;
@@ -54,17 +52,15 @@
             border-color: #8b949e;
         }
 
-        /* 3. DESCRIPTION TEXT */
         p {
             color: #919596;
             font-size: 21px;
             line-height: 1.6;
             margin: 0;
-            margin-bottom: 40px; /* Space before window */
+            margin-bottom: 40px;
             max-width: 970px;
         }
 
-        /* 4. MAC WINDOW STYLES */
         .mac-window {
             background-color: #161b22;
             border: 1px solid #30363d;
@@ -101,7 +97,7 @@
             color: #8b949e;
             font-size: 14px;
             font-family: monospace;
-            padding-right: 52px; /* Centers text by accounting for dots */
+            padding-right: 52px;
         }
 
         .code-area {
@@ -112,9 +108,38 @@
 
         pre { margin: 0; }
 
-        /* Syntax Highlighting */
-        .func { color: #dcdcaa; }    /* Yellow for print */
-        .string { color: #ce9178; }  /* Orange for "hello world" */
+        .func { color: #dcdcaa; }
+        .string { color: #ce9178; }
+
+        .terminal {
+            border-top: 1px solid #30363d;
+            padding: 12px 20px;
+            font-family: monospace;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .prompt {
+            color: #8b949e;
+        }
+
+        #commandInput {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #e0e5ea;
+            font-family: monospace;
+            font-size: 16px;
+            width: 100%;
+        }
+
+        .error {
+            color: #ff4c4c;
+            font-family: monospace;
+            font-size: 14px;
+			margin-top: 8px;
+        }
 
     </style>
 </head>
@@ -132,9 +157,11 @@
             </a>
         </div>
 
-        <p>Project CArch is a one-person indie studio based in Ireland. 
-           I develop games, tools, and creative projects, sharing them freely 
-           to inspire, entertain, and experiment with new ideas.</p>
+        <p>
+            Project CArch is a one-person indie studio based in Ireland. 
+            I develop games, tools, and creative projects, sharing them freely 
+            to inspire, entertain, and experiment with new ideas.
+        </p>
 
         <div class="mac-window">
             <div class="title-bar">
@@ -145,12 +172,43 @@
                 </div>
                 <div class="file-name">main.py — ProjectCArch</div>
             </div>
+
             <div class="code-area">
                 <pre><code><span class="func">print</span>(<span class="string">"hello world"</span>)</code></pre>
             </div>
+
+            <div class="terminal" id="terminal">
+                <div class="terminal-line">
+                    <input id="commandInput" type="text" placeholder="> type a command..." autocomplete="off">
+                </div>
+            </div>
         </div>
-        
     </div>
+
+<script>
+const input = document.getElementById("commandInput");
+const terminal = document.getElementById("terminal");
+
+input.addEventListener("keydown", function(event){
+    if(event.key === "Enter"){
+        const cmd = input.value.trim();
+        input.value = "";
+
+        // remove previous error if exists
+        const prevError = terminal.querySelector(".error");
+        if(prevError) prevError.remove();
+
+        if(cmd === "experimental()"){
+            window.open("pages/experimental.html", "_blank");
+        } else if(cmd.length > 0) {
+            const error = document.createElement("div");
+            error.className = "error";
+            error.textContent = `ERROR >> index.html line 206 >> "you thought i was actually going to make a working terminal?"`;
+            terminal.appendChild(error);
+        }
+    }
+});
+</script>
 
 </body>
 </html>
